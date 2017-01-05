@@ -1,5 +1,9 @@
+syntax = "proto3";
+package helloworld;
+import "google/api/annotations.proto";
+
 message EchoMessage {
- required string value = 1;
+ string value = 1;
 }
 
 service EchoService {
