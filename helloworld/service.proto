@@ -13,4 +13,9 @@ service EchoService {
       body: "*"
     };
   }
+  rpc Msg(EchoMessage) returns (EchoMessage) {
+    option (google.api.http) = {
+      get: "/v1/echo"
+    };
+  }
 }
