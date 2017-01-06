@@ -70,7 +70,6 @@ func run( opts ...runtime.ServeMuxOption) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(gwe);
 	mux.Handle("/", gwe)
 
  // opts := []grpc.DialOption{grpc.WithInsecure()}
