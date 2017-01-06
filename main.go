@@ -17,6 +17,7 @@ import (
 var (
  echoEndpoint = flag.String("echo_endpoint", "localhost:9090", "/v1/echo")
 )
+
 type _EchoMessage struct{
 	v *gw.EchoMessage
 	m sync.Mutex
