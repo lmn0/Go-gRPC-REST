@@ -3,6 +3,7 @@ import (
  "flag"
  "net/http"
  "sync"
+ "fmt"
 
  "github.com/golang/glog"
  "golang.org/x/net/context"
@@ -47,18 +48,36 @@ func (s *_EchoMessage) Msg(ctx context.Context, msg *gw.EchoMessage) (*gw.EchoMe
 	return nil, grpc.Errorf(codes.NotFound, "not found")
 }
 
-func run() error {
+func newGateway(ctx context.Context, opts ...runtime.ServeMuxOption) (http.Handler, error) {
+	mux := runtime.NewServeMux(opts...)
+	dialOpts := []grpc.DialOption{grpc.WithInsecure()}
+	err := gw.RegisterEchoServiceHandlerFromEndpoint(ctx, mux, *echoEndpoint, dialOpts)
+	if err != nil {
+		return nil, err
+	}
+	
+	return mux, nil
+}
+
+func run( opts ...runtime.ServeMuxOption) error {
  ctx := context.Background()
  ctx, cancel := context.WithCancel(ctx)
  defer cancel()
 
  mux := runtime.NewServeMux()
 
- opts := []grpc.DialOption{grpc.WithInsecure()}
- err := gw.RegisterEchoServiceHandlerFromEndpoint(ctx, mux, *echoEndpoint, opts)
- if err != nil {
-   return err
- }
+ gwe, err := newGateway(ctx, opts...)
+	if err != nil {
+		return err
+	}
+	fmt.Println(gwe);
+	mux.Handle("/", gwe)
+
+ // opts := []grpc.DialOption{grpc.WithInsecure()}
+ // err := gw.RegisterEchoServiceHandlerFromEndpoint(ctx, mux, *echoEndpoint, opts)
+ // if err != nil {
+ //   return err
+ // }
 
  http.ListenAndServe(":8085", mux)
  return nil
