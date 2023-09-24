@@ -1,3 +1,5 @@
+This is a simple REST API exposing site built using Go lang and Protocol Buffers
+
 Running protocol buffer for Go should be done with the following command:
 
 Generating the stub with:
