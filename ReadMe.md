@@ -1,6 +1,6 @@
-This is a simple REST API exposing site built using Go lang and Protocol Buffers
+This is a simple REST API server built in Go lang. The data packets make use of Protocol Buffer messages to transfer data between server and client. Protocol Buffers are designed to be light weight. 
 
-Running protocol buffer for Go should be done with the following command:
+The following commands can be used to generate stubs and reverse proxy for conversion of a gRPC into a REST protocol and vice versa.
 
 Generating the stub with:
 ```
